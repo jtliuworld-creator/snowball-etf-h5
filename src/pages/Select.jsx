@@ -101,12 +101,13 @@ export default function Select() {
 
       {/* ETF 列表 */}
       <div className="select-list">
-        {sortedPool.map(etf => (
+        {sortedPool.map((etf, i) => (
           <EtfCard
             key={etf.id}
             etf={etf}
             selected={isSelected(etf)}
             onSelect={toggleEtf}
+            featured={i === 0}
           />
         ))}
       </div>

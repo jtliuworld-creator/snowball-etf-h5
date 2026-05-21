@@ -1094,14 +1094,12 @@ input { font-family: inherit; }
 }
 .etf-card-row:hover { border-color: rgba(255,184,0,.5); }
 .etf-card-row.selected { border-color: var(--accent); background: var(--accent-dim); }
-.etf-card-row.sponsored { border-color: rgba(255,184,0,.35); }
 .etf-card-row.featured {
   border-color: var(--gold);
   background: linear-gradient(135deg, rgba(255,184,0,.12), rgba(255,184,0,.04));
   box-shadow: 0 0 12px rgba(255,184,0,.18);
   padding-top: 18px;
 }
-.etf-card-row.sponsored:not(.featured) { padding-top: 18px; }
 .etf-featured-badge {
   position: absolute;
   top: -1px;

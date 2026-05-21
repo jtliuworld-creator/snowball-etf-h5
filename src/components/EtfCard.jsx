@@ -1,5 +1,4 @@
 import { analytics } from '../utils/analytics.js'
-import { isTodayFeatured } from '../utils/sponsorRotation.js'
 
 const POSITION_COLORS = {
   forward: { bg: '#ff6b35', label: '前锋' },
@@ -23,10 +22,9 @@ function ChangeBadge({ value }) {
   return <span className={`etf-change ${cls}`}>{sign}{value.toFixed(2)}%</span>
 }
 
-export default function EtfCard({ etf, selected, onSelect }) {
+export default function EtfCard({ etf, selected, onSelect, featured = false }) {
   const pos = POSITION_COLORS[etf.position] || POSITION_COLORS.forward
   const change = getWeeklyChange(etf.id)
-  const featured = isTodayFeatured(etf)
 
   function handleClick() {
     if (etf.sponsored) analytics.sponsorCardClick(etf.id)
@@ -36,11 +34,10 @@ export default function EtfCard({ etf, selected, onSelect }) {
 
   return (
     <div
-      className={`etf-card-row ${selected ? 'selected' : ''} ${featured ? 'featured' : etf.sponsored ? 'sponsored' : ''}`}
+      className={`etf-card-row ${selected ? 'selected' : ''} ${featured ? 'featured' : ''}`}
       onClick={handleClick}
     >
       {featured && <span className="etf-featured-badge">今日推荐</span>}
-      {!featured && etf.sponsored && <span className="etf-sponsor-badge">赞助</span>}
 
       <div className="etf-row-main">
         <span className="etf-pos-pill" style={{ background: pos.bg }}>{pos.label}</span>
