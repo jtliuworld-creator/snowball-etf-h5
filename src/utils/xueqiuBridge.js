@@ -24,13 +24,14 @@ function isInXueqiuApp() {
  */
 export async function addToWatchlist(etfCodes) {
   console.log('[xueqiuBridge] addToWatchlist', etfCodes)
-  if (isInXueqiuApp()) {
-    // TODO: 接入雪球 native 方法
-    return { ok: false, msg: '请联系产品同学接入雪球 addToWatchlist 接口' }
-  }
-  // H5 / 浏览器内：友好提示
-  alert(`已模拟将 ${etfCodes.length} 只 ETF 加入自选\n${etfCodes.join('、')}\n\n（上线后接雪球 native 真实生效）`)
-  return { ok: true }
+  // TODO: 上线时替换为雪球真实方法：
+  //   window.XueqiuJSBridge.callHandler('addToWatchlist', { codes: etfCodes }, cb)
+  // 真实实现里：加自选成功才返回 { ok: true }，失败返回 { ok: false }，
+  // 由调用方据此决定是否放行海报生成。
+  //
+  // 当前为 mock：始终返回成功，保证内测流程不被阻塞。
+  if (!etfCodes || etfCodes.length === 0) return { ok: true, count: 0 }
+  return { ok: true, count: etfCodes.length }
 }
 
 /**

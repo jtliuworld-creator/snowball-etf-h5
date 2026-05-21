@@ -5,6 +5,7 @@ import { useGame } from '../context/GameContext.jsx'
 import { SCORE_LABELS } from '../utils/scoring.js'
 import { analytics } from '../utils/analytics.js'
 import { addToWatchlist, shareToFriendCircle } from '../utils/xueqiuBridge.js'
+import { getPaidProductCodes } from '../utils/sponsorRotation.js'
 import FieldView from '../components/FieldView.jsx'
 import ScoreBar from '../components/ScoreBar.jsx'
 import PosterCanvas from '../components/PosterCanvas.jsx'
@@ -60,81 +61,89 @@ export default function Result() {
     return list.map((etf, i) => ({ ...POS_META[pos], etf, isFirst: i === 0 }))
   })
 
-  async function generatePoster() {
+  // 渲染海报 → 返回 dataUrl（由 publishFlow 调用）
+  async function renderPoster() {
+    if (!posterRef.current) throw new Error('海报区域未就绪')
+
+    setStatusText('等待图片加载…')
+    const imgs = posterRef.current.querySelectorAll('img')
+    await Promise.all(
+      Array.from(imgs).map(img =>
+        img.complete && img.naturalHeight !== 0
+          ? Promise.resolve()
+          : new Promise(res => {
+              img.onload = res
+              img.onerror = res
+              setTimeout(res, 3000)
+            })
+      )
+    )
+
+    setStatusText('正在渲染海报…')
+    const canvas = await html2canvas(posterRef.current, {
+      backgroundColor: '#0a0a0a',
+      scale: 2,
+      width: 480,
+      windowWidth: 480,
+      useCORS: true,
+      allowTaint: true,
+      imageTimeout: 15000,
+      logging: false,
+    })
+
+    setStatusText('生成图片…')
+    const dataUrl = canvas.toDataURL('image/png')
+    if (!dataUrl || dataUrl === 'data:,') throw new Error('生成的图片为空')
+
+    setImgSrc(dataUrl)
+    analytics.posterGenerate()
+    setTimeout(() => actionsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
+    return dataUrl
+  }
+
+  function savePoster(dataUrl) {
+    const src = dataUrl || imgSrc
+    if (!src) return
+    const a = document.createElement('a')
+    a.href = src
+    a.download = `${state.teamName}-ETF阵容.png`
+    a.click()
+    analytics.posterSave()
+  }
+
+  // 一键发布：① 加自选（仅付费招商客户的产品）② 加成功才生成海报 ③ 自动保存到相册
+  async function publishFlow() {
     setErrMsg('')
     setGenerating(true)
-    setStatusText('准备中…')
     try {
-      if (!posterRef.current) throw new Error('海报区域未就绪')
+      // ① 加自选 —— 付费招商客户的产品强制加入雪球自选
+      setStatusText('正在加入自选…')
+      const paidCodes = getPaidProductCodes(state.selectedEtfs)
+      const watchRes = await addToWatchlist(paidCodes)
+      if (!watchRes.ok) {
+        throw new Error('加入自选未成功，请重试后再生成海报')
+      }
 
-      setStatusText('等待图片加载…')
-      const imgs = posterRef.current.querySelectorAll('img')
-      await Promise.all(
-        Array.from(imgs).map(img =>
-          img.complete && img.naturalHeight !== 0
-            ? Promise.resolve()
-            : new Promise(res => {
-                img.onload = res
-                img.onerror = res
-                setTimeout(res, 3000)
-              })
-        )
-      )
+      // ② 生成海报
+      const dataUrl = await renderPoster()
 
-      setStatusText('正在渲染海报…')
-      const canvas = await html2canvas(posterRef.current, {
-        backgroundColor: '#0a0a0a',
-        scale: 2,
-        width: 480,
-        windowWidth: 480,
-        useCORS: true,
-        allowTaint: true,
-        imageTimeout: 15000,
-        logging: false,
-      })
-
-      setStatusText('生成图片…')
-      const dataUrl = canvas.toDataURL('image/png')
-      if (!dataUrl || dataUrl === 'data:,') throw new Error('生成的图片为空')
-
-      setImgSrc(dataUrl)
-      analytics.posterGenerate()
+      // ③ 自动保存到相册
+      savePoster(dataUrl)
       setStatusText('')
-      // 滚到操作区让用户看到 3 按钮
-      setTimeout(() => actionsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
     } catch (e) {
-      console.error('[poster] generate failed:', e)
-      setErrMsg(`生成失败：${e?.message || '未知错误'}。建议用系统浏览器（Safari / Chrome）打开`)
+      console.error('[poster] publish failed:', e)
+      setErrMsg(`发布失败：${e?.message || '未知错误'}。建议用系统浏览器（Safari / Chrome）打开`)
       setStatusText('')
     } finally {
       setGenerating(false)
     }
   }
 
-  function savePoster() {
+  // 分享朋友圈
+  async function shareToFriends() {
     if (!imgSrc) return
-    const a = document.createElement('a')
-    a.href = imgSrc
-    a.download = `${state.teamName}-ETF阵容.png`
-    a.click()
-    analytics.posterSave()
-  }
-
-  // 一键发布：保存 + 加自选 + 分享朋友圈
-  async function publishCombo() {
-    if (!imgSrc) return
-    savePoster()
-    const codes = POS_KEYS.flatMap(p => (state.selectedEtfs[p] || []).map(e => e.code))
-    await addToWatchlist(codes)
     await shareToFriendCircle(imgSrc, state.teamName)
     analytics.shareClick()
-  }
-
-  // 保存海报参加雪球活动（跟帖主贴）
-  function joinActivity() {
-    if (!imgSrc) return
-    savePoster()
-    alert('海报已保存到相册\n请前往「雪球活动主贴」评论区跟帖发布海报，邀请球友点赞冲榜')
   }
 
   return (
@@ -209,7 +218,7 @@ export default function Result() {
           <div className="rlc-heart">❤️</div>
           <div>
             <div className="rlc-title">想冲榜赢奖品？</div>
-            <div className="rlc-hint">保存海报 → 在<b>雪球活动主贴</b>评论区跟帖发布 → 球友点赞</div>
+            <div className="rlc-hint">一键发布 → 在<b>雪球活动主贴</b>评论区跟帖海报 → 球友点赞</div>
           </div>
         </div>
         <button className="rlc-rules" onClick={() => navigate('/rules')}>奖品规则 →</button>
@@ -219,38 +228,34 @@ export default function Result() {
       <div ref={actionsRef} className="result-actions">
         {errMsg && <div className="poster-error">⚠️ {errMsg}</div>}
 
-        {!imgSrc ? (
-          <button className="btn-primary btn-large" onClick={generatePoster} disabled={generating}>
-            {generating ? (statusText || '生成中...') : '🎨 生成分享海报'}
-          </button>
-        ) : (
-          <>
-            {/* 海报预览 */}
-            <div className="poster-preview">
-              <img src={imgSrc} alt="海报预览" className="poster-img" />
-            </div>
-
-            {/* 主推：一键发布 */}
-            <button className="btn-primary btn-large btn-combo" onClick={publishCombo}>
-              <span className="combo-title">🎁 一键发布</span>
-              <span className="combo-sub">💾 保存海报 · ⭐ 加自选 · 💬 分享朋友圈</span>
-            </button>
-
-            {/* 次级：参加活动 */}
-            <button className="btn-ghost btn-large-ghost" onClick={joinActivity}>
-              💾 保存海报参加活动
-              <span className="ghost-sub">跟帖到雪球主贴拿奖品</span>
-            </button>
-
-            {/* 兜底：重新生成 */}
-            <button className="btn-ghost" onClick={() => setImgSrc(null)}>
-              🔄 重新生成
-            </button>
-          </>
+        {/* 海报预览（生成后出现） */}
+        {imgSrc && (
+          <div className="poster-preview">
+            <img src={imgSrc} alt="海报预览" className="poster-img" />
+          </div>
         )}
 
+        {/* ① 一键发布：加自选 + 生成海报 */}
+        <button className="btn-primary btn-large btn-combo" onClick={publishFlow} disabled={generating}>
+          <span className="combo-title">🎁 一键发布</span>
+          <span className="combo-sub">
+            {generating ? (statusText || '处理中…') : '⭐ 加自选 · 🎨 生成海报（加自选后才能生成）'}
+          </span>
+        </button>
+
+        {/* ② 分享朋友圈（生成海报后可用） */}
+        <button
+          className="btn-ghost btn-large-ghost"
+          onClick={shareToFriends}
+          disabled={!imgSrc}
+        >
+          💬 分享朋友圈
+          {!imgSrc && <span className="ghost-sub">生成海报后可分享</span>}
+        </button>
+
+        {/* ③ 重新组队 */}
         <button className="btn-ghost" onClick={() => { dispatch({ type: 'RESET' }); navigate('/') }}>
-          重新组队
+          🔄 重新组队
         </button>
       </div>
 

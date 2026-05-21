@@ -41,6 +41,22 @@ export function getTodayTopSponsor() {
   return getTodaySponsorOrder()[0] || ''
 }
 
+/** 判断某基金公司是否为付费招商客户（其产品需强制加自选） */
+export function isPaidSponsor(company) {
+  return PAID_SPONSORS.includes(company)
+}
+
+/** 从阵容里筛出"付费招商客户"的产品代码（仅这些需要加自选） */
+export function getPaidProductCodes(selectedEtfs) {
+  const codes = []
+  for (const list of Object.values(selectedEtfs || {})) {
+    for (const etf of (Array.isArray(list) ? list : [list])) {
+      if (etf && isPaidSponsor(etf.fundCompany)) codes.push(etf.code)
+    }
+  }
+  return codes
+}
+
 /**
  * 按今日轮转给某个位置的 ETF 列表排序：
  * 1. 每个招商客户取它在本列表里 sortWeight 最高的 1 只，作为「头牌产品」

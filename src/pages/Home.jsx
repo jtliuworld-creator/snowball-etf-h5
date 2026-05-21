@@ -54,7 +54,7 @@ export default function Home() {
           </div>
           <div className="home-prize-row">
             <span className="prize-num">2</span>
-            <span className="prize-text">选阵型 + 配 4 只 ETF 组成球队</span>
+            <span className="prize-text">选阵型 + 配 11 只 ETF 组成球队</span>
           </div>
           <div className="home-prize-row">
             <span className="prize-num">3</span>
@@ -62,11 +62,11 @@ export default function Home() {
           </div>
           <div className="home-prize-row">
             <span className="prize-num">4</span>
-            <span className="prize-text">🧢 每日点赞 TOP 5 得<b>雪球棒球帽</b></span>
+            <span className="prize-text">🥃 每周点赞 TOP 1 得<b>雪球白酒一瓶</b></span>
           </div>
           <div className="home-prize-row">
             <span className="prize-num">5</span>
-            <span className="prize-text">🥃 每周点赞 TOP 1 得<b>雪球白酒一瓶</b></span>
+            <span className="prize-text">🧢 每周点赞 2-5 名 得<b>雪球棒球帽</b></span>
           </div>
           <div className="home-prize-cta">查看完整规则 →</div>
         </div>

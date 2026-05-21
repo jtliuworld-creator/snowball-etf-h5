@@ -9,10 +9,10 @@ import { sortPoolByRotation } from '../utils/sponsorRotation.js'
 import EtfCard from '../components/EtfCard.jsx'
 
 const TABS = [
-  { key: 'forward', label: '⚡ 前锋', color: '#ff6b35' },
-  { key: 'midfielder', label: '💫 中场', color: '#4dabf7' },
-  { key: 'defender', label: '🛡️ 后卫', color: '#3a5fcd' },
-  { key: 'goalkeeper', label: '🥅 门将', color: '#f5a623' },
+  { key: 'forward', label: '⚡ 前锋', short: '前锋', color: '#ff6b35' },
+  { key: 'midfielder', label: '💫 中场', short: '中场', color: '#4dabf7' },
+  { key: 'defender', label: '🛡️ 后卫', short: '后卫', color: '#3a5fcd' },
+  { key: 'goalkeeper', label: '🥅 门将', short: '门将', color: '#f5a623' },
 ]
 
 export default function Select() {
@@ -113,6 +113,23 @@ export default function Select() {
       </div>
 
       <div className="page-bottom">
+        {!allFilled && (
+          <div className="select-pos-progress">
+            {TABS.map(tab => {
+              const have = selected[tab.key]?.length || 0
+              const need = counts[tab.key]
+              const done = have === need
+              return (
+                <span key={tab.key} className={`spp-item ${done ? 'done' : ''}`}>
+                  {tab.short}
+                  {done
+                    ? <> 已选 {have} 支 ✓</>
+                    : <> 已选 {have}，还需 <b>{need - have}</b> 支</>}
+                </span>
+              )
+            })}
+          </div>
+        )}
         <button
           className={`btn-primary btn-large ${!allFilled ? 'disabled' : ''}`}
           onClick={allFilled ? handleDone : undefined}
