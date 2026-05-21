@@ -42,9 +42,10 @@ export default function EtfCard({ etf, selected, onSelect, featured = false }) {
       <div className="etf-row-main">
         <span className="etf-pos-pill" style={{ background: pos.bg }}>{pos.label}</span>
         <span className="etf-row-name">{etf.name}</span>
-        <span className="etf-row-meta">· {etf.fundCompany} · {etf.code}</span>
         <ChangeBadge value={change} />
       </div>
+
+      <div className="etf-row-meta">{etf.fundCompany} · {etf.code}</div>
 
       <div className="etf-row-sub">
         <span className="etf-row-desc">{etf.description}</span>

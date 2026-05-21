@@ -66,7 +66,7 @@ export default function Home() {
           </div>
           <div className="home-prize-row">
             <span className="prize-num">5</span>
-            <span className="prize-text">🥃 累计点赞 TOP 3 得<b>雪球白酒一套</b></span>
+            <span className="prize-text">🥃 每周点赞 TOP 1 得<b>雪球白酒一瓶</b></span>
           </div>
           <div className="home-prize-cta">查看完整规则 →</div>
         </div>

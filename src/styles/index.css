@@ -1132,23 +1132,21 @@ input { font-family: inherit; }
   border-radius: 20px;
 }
 .etf-row-name {
+  flex: 1;
+  min-width: 0;
   font-size: 14px;
   font-weight: 800;
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-shrink: 0;
 }
 .etf-row-meta {
+  display: block;
+  margin-bottom: 4px;
   color: var(--text-dim);
   font-size: 11px;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
 }
 .etf-change {
   flex-shrink: 0;

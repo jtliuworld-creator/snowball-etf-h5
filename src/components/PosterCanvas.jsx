@@ -98,7 +98,7 @@ const PosterCanvas = forwardRef(function PosterCanvas(_, ref) {
 
       <div className="poster-prize-strip">
         <div className="poster-prize-line">🧢 每日点赞 TOP 5 · 雪球棒球帽</div>
-        <div className="poster-prize-line">🥃 累计点赞 TOP 3 · 雪球白酒一套</div>
+        <div className="poster-prize-line">🥃 每周点赞 TOP 1 · 雪球白酒一瓶</div>
       </div>
 
       <div className="poster-bottom-row">

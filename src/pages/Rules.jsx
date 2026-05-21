@@ -47,11 +47,11 @@ export default function Rules() {
           </div>
 
           <div className="prize-card prize-card-grand">
-            <div className="prize-card-tag tag-gold">总冠军榜</div>
-            <div className="prize-card-title">累计点赞 TOP 3</div>
-            <div className="prize-card-desc">活动结束时累计点赞数最高的 3 位球友：</div>
-            <div className="prize-card-reward">🥃 <b>雪球品牌白酒一套</b></div>
-            <div className="prize-card-foot">全期仅 3 名，与每日奖可叠加</div>
+            <div className="prize-card-tag tag-gold">每周榜</div>
+            <div className="prize-card-title">每周点赞 TOP 1</div>
+            <div className="prize-card-desc">每周日 24:00 结算本周点赞数，第一名获得：</div>
+            <div className="prize-card-reward">🥃 <b>雪球品牌白酒 × 1 瓶</b></div>
+            <div className="prize-card-foot">每周开奖 1 名，与每日奖可叠加</div>
           </div>
         </section>
 
