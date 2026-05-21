@@ -62,11 +62,7 @@ const PosterCanvas = forwardRef(function PosterCanvas(_, ref) {
               style={{ left: `${x}%`, top: `${y}%` }}
             >
               <div className="poster-pos-dot" style={{ background: POS_COLORS[pos] }} />
-              {etf && (
-                <div className="poster-pos-name">
-                  {etf.name.length > 5 ? etf.name.slice(0, 4) + '…' : etf.name}
-                </div>
-              )}
+              {etf && <div className="poster-pos-name">{etf.name}</div>}
             </div>
           ))}
         </div>
