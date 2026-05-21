@@ -1260,6 +1260,16 @@ input { font-family: inherit; }
   padding: 3px;
 }
 
+/* 隐藏的海报画布 — 用于 html2canvas 截图，定位 -9999px 不显示但仍可渲染 */
+.poster-offscreen {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 480px;
+  pointer-events: none;
+  opacity: 0;
+}
+
 /* ===== 海报后主推按钮组合 ===== */
 .btn-combo {
   display: flex;
