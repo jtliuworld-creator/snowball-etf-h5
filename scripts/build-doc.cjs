@@ -235,6 +235,12 @@ const sections = [
   bullet('每个用户每天最多为同一条海报点赞 1 次'),
   bullet('检测到刷赞 / 小号互赞将取消评奖资格'),
 
+  H2('3.4 开奖与发奖通知'),
+  bullet('开奖公示：每天发布一篇雪球帖子，公示当日 / 当周获奖人员名单'),
+  bullet('实时通知：获奖结果通过雪球「站内信」实时发送给获奖球友'),
+  bullet('实物发放：获奖球友收到站内信后，按提示回复收货信息，由雪球官方统一寄出'),
+  bullet('未及时回复 / 地址失效导致无法送达的，视为放弃奖品'),
+
   // ===== 四、招商资源位 =====
   H1('四、招商资源位（重点）'),
 
@@ -243,43 +249,44 @@ const sections = [
   H2('4.1 资源位 A：ETF 产品池'),
   H3('描述'),
   P('每个位置（前锋 / 中场 / 后卫 / 门将）的产品候选池由若干 ETF 组成，用户从中挑选组队。每只 ETF 在选取页和阵容海报上获得高频曝光。'),
-  H3('当前容量'),
+  P('后台维护一份完整 ETF 名单（目前约 40-50 只产品），按位置分类。前端展示池从该名单中按位置取数；招商客户的产品通过运营后台标记进入对应位置池。', { run: { italics: true, color: '666666' } }),
+  H3('当前 H5 演示池容量'),
   table([2340, 2340, 2340, 2340], [
     new TableRow({
       tableHeader: true,
       children: [
         cell('位置', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2340 }),
-        cell('当前池大小', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2340 }),
+        cell('演示池大小', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2340 }),
         cell('单次组队需选', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2340 }),
-        cell('扩容空间', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2340 }),
+        cell('后台名单', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2340 }),
       ],
     }),
     new TableRow({ children: [
       cell('前锋', { width: 2340, align: AlignmentType.CENTER }),
-      cell('8 只', { width: 2340, align: AlignmentType.CENTER }),
+      cell('9 只', { width: 2340, align: AlignmentType.CENTER }),
       cell('1-3 只（按阵型）', { width: 2340, align: AlignmentType.CENTER }),
-      cell('可扩至 12-15', { width: 2340, align: AlignmentType.CENTER, color: SECOND_ACCENT }),
+      cell('运营维护', { width: 2340, align: AlignmentType.CENTER, color: SECOND_ACCENT }),
     ] }),
     new TableRow({ children: [
       cell('中场', { width: 2340, align: AlignmentType.CENTER }),
-      cell('8 只', { width: 2340, align: AlignmentType.CENTER }),
+      cell('9 只', { width: 2340, align: AlignmentType.CENTER }),
       cell('3-5 只（按阵型）', { width: 2340, align: AlignmentType.CENTER }),
-      cell('可扩至 12-15', { width: 2340, align: AlignmentType.CENTER, color: SECOND_ACCENT }),
+      cell('运营维护', { width: 2340, align: AlignmentType.CENTER, color: SECOND_ACCENT }),
     ] }),
     new TableRow({ children: [
       cell('后卫', { width: 2340, align: AlignmentType.CENTER }),
-      cell('6 只', { width: 2340, align: AlignmentType.CENTER }),
+      cell('7 只', { width: 2340, align: AlignmentType.CENTER }),
       cell('3-5 只（按阵型）', { width: 2340, align: AlignmentType.CENTER }),
-      cell('建议补到 8+', { width: 2340, align: AlignmentType.CENTER, color: RED }),
+      cell('运营维护', { width: 2340, align: AlignmentType.CENTER, color: SECOND_ACCENT }),
     ] }),
     new TableRow({ children: [
       cell('门将', { width: 2340, align: AlignmentType.CENTER }),
       cell('5 只', { width: 2340, align: AlignmentType.CENTER }),
       cell('恒定 1 只', { width: 2340, align: AlignmentType.CENTER }),
-      cell('5 只够用', { width: 2340, align: AlignmentType.CENTER }),
+      cell('运营维护', { width: 2340, align: AlignmentType.CENTER, color: SECOND_ACCENT }),
     ] }),
   ]),
-  P('合计当前池：27 只 ETF。', { run: { bold: true } }),
+  P('当前 H5 演示池合计：30 只 ETF。正式上线时由后台 40-50 只名单驱动。', { run: { bold: true } }),
 
   H3('单只产品展示信息'),
   bullet('位置标签（带颜色识别）'),
@@ -291,17 +298,51 @@ const sections = [
   bullet('风险等级'),
   bullet('技能名（如"爆发突击" / "稳健守护"等趣味标签，合作方自定义）'),
 
-  H2('4.2 资源位 B：「今日推荐」金色徽章'),
-  H3('描述'),
-  P('每个位置的产品列表中，排在第一位的 ETF 自带「今日推荐」金色徽章 + 渐变光晕背景。该位置由"招商客户日轮动"机制决定。'),
-  H3('日轮动机制'),
-  bullet('系统按日期对所有招商客户进行公平轮值'),
-  bullet('当日轮值的客户，其旗下产品在所属位置的列表里被排到第一位，获得徽章 + 置顶'),
-  bullet('举例：第一天 华夏 / 第二天 富国 / 第三天 易方达 / 循环'),
-  bullet('确保每个招商客户都有公平的"头牌位"曝光机会'),
-  H3('当前轮值名单'),
-  bullet('华夏基金 / 富国基金 / 易方达基金 / 华安基金 / 华宝基金 / 华泰柏瑞 / 嘉实基金（7 家，可扩展）'),
-  P('💡 名单顺序、轮值天数都可配置。一家公司想买"周一+周三+周五"专属位也支持。', { run: { italics: true, color: '666666' } }),
+  H2('4.2 资源位 B：招商「跑马灯」轮转头牌位'),
+  H3('机制说明'),
+  P('已付费的招商客户占据每个位置 ETF 列表的头部「头牌位」。每个客户在所属位置贡献一只「头牌产品」，按轮转顺序排列。排在第一位的产品自带「今日推荐」金色徽章 + 渐变光晕背景。'),
+  bullet('活动第 1 天：头牌位按招商客户签约顺序排列'),
+  bullet('从第 2 天起：整体「跑马灯式」轮转一位 —— 原第一位移到末位，其余依次前移'),
+  bullet('保证每个招商客户在轮转周期内，都能轮到「第一位 / 今日推荐」的曝光'),
+  H3('轮转示例（假设 A=华夏、B=易方达、C=富国 三家签约）'),
+  table([1560, 2520, 2520, 2520], [
+    new TableRow({
+      tableHeader: true,
+      children: [
+        cell('日期', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 1560 }),
+        cell('第一位（今日推荐）', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2520 }),
+        cell('第二位', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2520 }),
+        cell('第三位', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2520 }),
+      ],
+    }),
+    new TableRow({ children: [
+      cell('第 1 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
+      cell('华夏', { width: 2520, align: AlignmentType.CENTER, color: ACCENT, bold: true }),
+      cell('易方达', { width: 2520, align: AlignmentType.CENTER }),
+      cell('富国', { width: 2520, align: AlignmentType.CENTER }),
+    ] }),
+    new TableRow({ children: [
+      cell('第 2 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
+      cell('易方达', { width: 2520, align: AlignmentType.CENTER, color: ACCENT, bold: true }),
+      cell('富国', { width: 2520, align: AlignmentType.CENTER }),
+      cell('华夏', { width: 2520, align: AlignmentType.CENTER }),
+    ] }),
+    new TableRow({ children: [
+      cell('第 3 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
+      cell('富国', { width: 2520, align: AlignmentType.CENTER, color: ACCENT, bold: true }),
+      cell('华夏', { width: 2520, align: AlignmentType.CENTER }),
+      cell('易方达', { width: 2520, align: AlignmentType.CENTER }),
+    ] }),
+    new TableRow({ children: [
+      cell('第 4 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
+      cell('（回到第 1 天，循环往复）', { width: 7560, align: AlignmentType.CENTER, color: '999999' }),
+    ] }),
+  ]),
+  H3('计价建议'),
+  bullet('轮转头牌位是核心商业化资源 —— 每个签约客户都能轮到"第一位"曝光，公平且稀缺'),
+  bullet('客户数越少，每家轮到"第一位"的频次越高（如 3 家签约 = 每 3 天轮到 1 次第一位）'),
+  bullet('建议按"签约席位数"定价：席位越少单价越高（稀缺性溢价）'),
+  bullet('名单顺序、轮转周期均可由运营后台配置'),
 
   H2('4.3 资源位 C：海报二维码'),
   H3('描述'),
@@ -436,7 +477,7 @@ const sections = [
 
   H2('9.1 第 1 期：当前已完成（招商案使用版本）'),
   bullet('完整玩法链路（测试 → 阵型 → 选 ETF → 评分 → 海报 → 跟帖）'),
-  bullet('日轮动机制 + 今日推荐徽章'),
+  bullet('招商跑马灯轮转头牌位 + 今日推荐徽章'),
   bullet('海报二维码导流'),
   bullet('一键加自选 + 朋友圈分享按钮（占位等接 SDK）'),
 
@@ -473,16 +514,20 @@ const sections = [
       cell('React 18 / Vite / html2canvas / qrcode', { width: 6900 }),
     ] }),
     new TableRow({ children: [
-      cell('当前 ETF 池规模', { width: 2340 }),
-      cell('27 只（前 8 + 中 8 + 后 6 + 门 5）', { width: 6900 }),
+      cell('当前演示池规模', { width: 2340 }),
+      cell('30 只（前 9 + 中 9 + 后 7 + 门 5）；后台名单约 40-50 只', { width: 6900 }),
     ] }),
     new TableRow({ children: [
       cell('单次组队产品数', { width: 2340 }),
       cell('11 只（按阵型分配）', { width: 6900 }),
     ] }),
     new TableRow({ children: [
-      cell('招商客户轮值容量', { width: 2340 }),
-      cell('7 家（可扩展）', { width: 6900 }),
+      cell('招商轮转机制', { width: 2340 }),
+      cell('跑马灯轮转头牌位，签约席位数可配置', { width: 6900 }),
+    ] }),
+    new TableRow({ children: [
+      cell('开奖与通知', { width: 2340 }),
+      cell('每日发帖公示名单 + 站内信实时通知获奖球友', { width: 6900 }),
     ] }),
   ]),
 

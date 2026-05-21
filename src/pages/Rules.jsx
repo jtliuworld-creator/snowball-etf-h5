@@ -61,10 +61,19 @@ export default function Rules() {
         </section>
 
         <section className="rules-section">
+          <h3 className="rules-h3">📢 开奖与通知</h3>
+          <ul className="rules-list">
+            <li>每日获奖名单将通过<b>雪球官方发帖</b>公示</li>
+            <li>中奖结果会通过<b>站内信实时通知</b>到获奖球友，请留意站内信</li>
+            <li>收到中奖站内信后，请按提示及时回复收货信息</li>
+          </ul>
+        </section>
+
+        <section className="rules-section">
           <h3 className="rules-h3">📋 注意事项</h3>
           <ul className="rules-list">
             <li>同一用户多次组队，以最新一次提交的阵容计票</li>
-            <li>奖品由雪球官方统一发放，请获奖球友及时回复中奖通知</li>
+            <li>奖品由雪球官方统一发放</li>
             <li>邮寄地址错误或失效导致无法送达的，视为放弃</li>
             <li>本活动最终解释权归雪球所有</li>
           </ul>
