@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import html2canvas from 'html2canvas'
 import { useGame } from '../context/GameContext.jsx'
 import { SCORE_LABELS } from '../utils/scoring.js'
 import { analytics } from '../utils/analytics.js'
@@ -12,6 +13,7 @@ export default function Poster() {
   const [imgSrc, setImgSrc] = useState(null)
   const [generating, setGenerating] = useState(false)
   const [errMsg, setErrMsg] = useState('')
+  const [statusText, setStatusText] = useState('')
 
   useEffect(() => { analytics.pageView('poster') }, [])
 
@@ -23,12 +25,14 @@ export default function Poster() {
 
 
   async function generatePoster() {
-    setGenerating(true)
     setErrMsg('')
+    setGenerating(true)
+    setStatusText('准备中…')
     try {
-      const html2canvas = (await import('html2canvas')).default
-      // 等所有 <img> 加载完毕，避免海报里 logo 出现裂图
-      const imgs = posterRef.current?.querySelectorAll('img') || []
+      if (!posterRef.current) throw new Error('海报区域未就绪，请重试')
+
+      setStatusText('等待图片加载…')
+      const imgs = posterRef.current.querySelectorAll('img')
       await Promise.all(
         Array.from(imgs).map(img =>
           img.complete && img.naturalHeight !== 0
@@ -40,6 +44,8 @@ export default function Poster() {
               })
         )
       )
+
+      setStatusText('正在渲染海报…')
       const canvas = await html2canvas(posterRef.current, {
         backgroundColor: '#0a0a0a',
         scale: 1.5,
@@ -48,13 +54,18 @@ export default function Poster() {
         imageTimeout: 15000,
         logging: false,
       })
+
+      setStatusText('生成图片…')
       const dataUrl = canvas.toDataURL('image/png')
-      if (!dataUrl || dataUrl === 'data:,') throw new Error('生成的图片为空，请重试或换浏览器再试')
+      if (!dataUrl || dataUrl === 'data:,') throw new Error('生成的图片为空')
+
       setImgSrc(dataUrl)
       analytics.posterGenerate()
+      setStatusText('')
     } catch (e) {
       console.error('[poster] generate failed:', e)
-      setErrMsg(`生成失败：${e?.message || '未知错误'}。建议用系统浏览器（Safari / Chrome）打开，避免微信内置浏览器`)
+      setErrMsg(`生成失败：${e?.message || e?.toString() || '未知错误'}。建议用系统浏览器（Safari / Chrome）打开`)
+      setStatusText('')
     } finally {
       setGenerating(false)
     }
@@ -138,9 +149,8 @@ export default function Poster() {
           <div className="poster-comment">{state.comment}</div>
 
           <div className="poster-prize-strip">
-            <span>🧢 每日点赞 TOP 5 雪球棒球帽</span>
-            <span className="poster-prize-sep">·</span>
-            <span>🥃 累计 TOP 3 雪球白酒一套</span>
+            <div className="poster-prize-line">🧢 每日点赞 TOP 5 · 雪球棒球帽</div>
+            <div className="poster-prize-line">🥃 累计点赞 TOP 3 · 雪球白酒一套</div>
           </div>
 
           <div className="poster-risk">本阵容仅为个人趣味配置展示，不构成投资建议。基金有风险，投资需谨慎。</div>
@@ -162,9 +172,12 @@ export default function Poster() {
           </div>
         )}
         {!imgSrc ? (
-          <button className="btn-primary btn-large" onClick={generatePoster} disabled={generating}>
-            {generating ? '生成中...' : '🎨 生成海报'}
-          </button>
+          <>
+            <button className="btn-primary btn-large" onClick={generatePoster} disabled={generating}>
+              {generating ? (statusText || '生成中...') : '🎨 生成海报'}
+            </button>
+            {generating && <div className="poster-status">{statusText}</div>}
+          </>
         ) : (
           <>
             <div className="poster-next-step">
