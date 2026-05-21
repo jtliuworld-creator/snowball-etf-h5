@@ -1032,6 +1032,18 @@ input { font-family: inherit; }
 }
 .poster-prize-sep { margin: 0 6px; opacity: 0.5; }
 
+/* 海报生成错误提示 */
+.poster-error {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  background: rgba(230, 57, 70, 0.12);
+  border: 1px solid rgba(230, 57, 70, 0.5);
+  border-radius: var(--radius-sm);
+  color: #ffb4b4;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 /* ===== 海报页"下一步"提示卡 ===== */
 .poster-next-step {
   margin-bottom: 12px;

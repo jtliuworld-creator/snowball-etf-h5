@@ -11,6 +11,7 @@ export default function Poster() {
   const posterRef = useRef(null)
   const [imgSrc, setImgSrc] = useState(null)
   const [generating, setGenerating] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
 
   useEffect(() => { analytics.pageView('poster') }, [])
 
@@ -23,18 +24,37 @@ export default function Poster() {
 
   async function generatePoster() {
     setGenerating(true)
+    setErrMsg('')
     try {
       const html2canvas = (await import('html2canvas')).default
+      // 等所有 <img> 加载完毕，避免海报里 logo 出现裂图
+      const imgs = posterRef.current?.querySelectorAll('img') || []
+      await Promise.all(
+        Array.from(imgs).map(img =>
+          img.complete && img.naturalHeight !== 0
+            ? Promise.resolve()
+            : new Promise(res => {
+                img.onload = res
+                img.onerror = res
+                setTimeout(res, 3000)
+              })
+        )
+      )
       const canvas = await html2canvas(posterRef.current, {
         backgroundColor: '#0a0a0a',
-        scale: 2,
+        scale: 1.5,
         useCORS: true,
+        allowTaint: true,
+        imageTimeout: 15000,
         logging: false,
       })
-      setImgSrc(canvas.toDataURL('image/png'))
+      const dataUrl = canvas.toDataURL('image/png')
+      if (!dataUrl || dataUrl === 'data:,') throw new Error('生成的图片为空，请重试或换浏览器再试')
+      setImgSrc(dataUrl)
       analytics.posterGenerate()
     } catch (e) {
-      console.error(e)
+      console.error('[poster] generate failed:', e)
+      setErrMsg(`生成失败：${e?.message || '未知错误'}。建议用系统浏览器（Safari / Chrome）打开，避免微信内置浏览器`)
     } finally {
       setGenerating(false)
     }
@@ -136,6 +156,11 @@ export default function Poster() {
       )}
 
       <div className="poster-actions">
+        {errMsg && (
+          <div className="poster-error">
+            ⚠️ {errMsg}
+          </div>
+        )}
         {!imgSrc ? (
           <button className="btn-primary btn-large" onClick={generatePoster} disabled={generating}>
             {generating ? '生成中...' : '🎨 生成海报'}
