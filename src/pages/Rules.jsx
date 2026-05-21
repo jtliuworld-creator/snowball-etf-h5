@@ -43,7 +43,7 @@ export default function Rules() {
             <div className="prize-card-title">每日点赞 TOP 5</div>
             <div className="prize-card-desc">每日 24:00 结算当日点赞数，TOP 5 各获得：</div>
             <div className="prize-card-reward">🧢 <b>雪球品牌棒球帽</b> × 1 顶</div>
-            <div className="prize-card-foot">活动期间每日开奖，名额不累计</div>
+            <div className="prize-card-foot">每日开奖；同一用户每周限获 1 次，重复上榜名额顺延</div>
           </div>
 
           <div className="prize-card prize-card-grand">
@@ -51,13 +51,22 @@ export default function Rules() {
             <div className="prize-card-title">每周点赞 TOP 1</div>
             <div className="prize-card-desc">每周日 24:00 结算本周点赞数，第一名获得：</div>
             <div className="prize-card-reward">🥃 <b>雪球品牌白酒 × 1 瓶</b></div>
-            <div className="prize-card-foot">每周开奖 1 名，与每日奖可叠加</div>
+            <div className="prize-card-foot">每周开奖 1 名；同一用户活动期内限获 1 次，重复登顶名额顺延</div>
           </div>
         </section>
 
         <section className="rules-section">
           <h3 className="rules-h3">📅 活动时间</h3>
-          <p className="rules-p">2026.05.20 — 2026.06.20（共 32 天）</p>
+          <p className="rules-p">2026.06.12 — 2026.07.20（共 39 天）</p>
+        </section>
+
+        <section className="rules-section">
+          <h3 className="rules-h3">🎯 获奖名额规则</h3>
+          <ul className="rules-list">
+            <li><b>日度奖</b>：同一用户<b>每周最多获得 1 次</b>。一周内多次进入日榜 TOP 5，从第 2 次起名额顺延给下一名；下一周重新计算，可再获 1 次。</li>
+            <li><b>周度奖</b>：同一用户在<b>整个活动期内最多获得 1 次</b>。若再次成为周榜第一，奖品顺延给第二名。</li>
+            <li>日度奖与周度奖互不影响，可同时获得。</li>
+          </ul>
         </section>
 
         <section className="rules-section">

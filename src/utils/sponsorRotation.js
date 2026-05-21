@@ -16,7 +16,7 @@
  */
 
 // 活动开始日期 —— 用于计算"活动第几天"，确保第 1 天的排序可控
-const ACTIVITY_START = '2026-05-20'
+const ACTIVITY_START = '2026-06-12'
 
 // 已付费招商客户名单，按签约先后顺序排列
 // TODO: 接接口后从后端 /api/etf-campaign/sponsors 拉取
