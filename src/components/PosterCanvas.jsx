@@ -44,8 +44,7 @@ const PosterCanvas = forwardRef(function PosterCanvas(_, ref) {
   return (
     <div ref={ref} className="poster-canvas">
       <div className="poster-top-bar">
-        <Logo height={28} />
-        <span className="poster-badge">⚽ 做ETF球队老板</span>
+        <Logo height={30} />
       </div>
       <h3 className="poster-team-name">🏆 {state.teamName}</h3>
       <div className="poster-personality">{state.personalityData?.name || ''}</div>

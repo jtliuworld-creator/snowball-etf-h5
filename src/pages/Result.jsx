@@ -84,7 +84,9 @@ export default function Result() {
       setStatusText('正在渲染海报…')
       const canvas = await html2canvas(posterRef.current, {
         backgroundColor: '#0a0a0a',
-        scale: 1.5,
+        scale: 2,
+        width: 480,
+        windowWidth: 480,
         useCORS: true,
         allowTaint: true,
         imageTimeout: 15000,

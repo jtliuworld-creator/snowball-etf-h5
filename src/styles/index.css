@@ -707,10 +707,9 @@ input { font-family: inherit; }
 }
 .poster-top-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 .poster-badge {
   background: var(--accent-dim);
