@@ -35,12 +35,16 @@ export default function Result() {
     setEditingName(false)
   }
 
-  const etfList = [
-    { label: '⚡ 前锋', etf: state.selectedEtfs.forward },
-    { label: '💫 中场', etf: state.selectedEtfs.midfielder },
-    { label: '🛡️ 后卫', etf: state.selectedEtfs.defender },
-    { label: '🥅 门将', etf: state.selectedEtfs.goalkeeper },
-  ]
+  const POS_META = {
+    forward: { label: '⚡ 前锋', color: '#ff6b35' },
+    midfielder: { label: '💫 中场', color: '#4dabf7' },
+    defender: { label: '🛡️ 后卫', color: '#3a5fcd' },
+    goalkeeper: { label: '🥅 门将', color: '#f5a623' },
+  }
+  const etfRows = ['forward', 'midfielder', 'defender', 'goalkeeper'].flatMap(pos => {
+    const list = state.selectedEtfs[pos] || []
+    return list.map((etf, i) => ({ ...POS_META[pos], etf, isFirst: i === 0 }))
+  })
 
   return (
     <div className="page result-page">
@@ -73,11 +77,13 @@ export default function Result() {
       {/* 球场 */}
       <FieldView formation={state.formation} selectedEtfs={state.selectedEtfs} />
 
-      {/* 已选球员列表 */}
+      {/* 已选球员列表（11 只） */}
       <div className="result-etf-list">
-        {etfList.map(({ label, etf }) => etf && (
-          <div key={label} className="result-etf-row">
-            <span className="result-etf-pos">{label}</span>
+        {etfRows.map(({ label, color, etf, isFirst }, idx) => (
+          <div key={`${etf.id}-${idx}`} className="result-etf-row">
+            <span className="result-etf-pos" style={{ color, visibility: isFirst ? 'visible' : 'hidden' }}>
+              {label}
+            </span>
             <span className="result-etf-name">{etf.name}</span>
             <span className="result-etf-company">{etf.fundCompany}</span>
           </div>
@@ -121,9 +127,6 @@ export default function Result() {
       <div className="result-actions">
         <button className="btn-primary btn-large" onClick={() => navigate('/poster')}>
           🎨 生成分享海报
-        </button>
-        <button className="btn-ghost" onClick={() => navigate('/rankings')}>
-          查看热门榜单 →
         </button>
         <button className="btn-ghost" onClick={() => { dispatch({ type: 'RESET' }); navigate('/') }}>
           重新组队

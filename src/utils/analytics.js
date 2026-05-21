@@ -93,10 +93,14 @@ export function getRankings() {
 
     stored.forEach(item => {
       ;['forward', 'midfielder', 'defender', 'goalkeeper'].forEach(pos => {
-        if (item[pos]) {
-          countMap[pos][item[pos].id] = (countMap[pos][item[pos].id] || 0) + 1
-          countMap[pos][`_etf_${item[pos].id}`] = item[pos]
-        }
+        // 兼容旧格式（单选对象）和新格式（数组多选）
+        const etfsAtPos = Array.isArray(item[pos]) ? item[pos] : (item[pos] ? [item[pos]] : [])
+        etfsAtPos.forEach(etf => {
+          if (etf && etf.id) {
+            countMap[pos][etf.id] = (countMap[pos][etf.id] || 0) + 1
+            countMap[pos][`_etf_${etf.id}`] = etf
+          }
+        })
       })
       if (item.formation) {
         countMap.formation[item.formation] = (countMap.formation[item.formation] || 0) + 1

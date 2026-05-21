@@ -62,3 +62,16 @@ export const FORMATIONS = {
 }
 
 export const FORMATION_LIST = Object.values(FORMATIONS)
+
+// 每个阵型对应位置需要选几只 ETF（11 人制：守门员永远 1 个）
+export function getPositionCounts(formationName) {
+  const f = FORMATIONS[formationName] || FORMATIONS['4-3-3']
+  return {
+    goalkeeper: f.positions.goalkeeper.length,
+    defender: f.positions.defender.length,
+    midfielder: f.positions.midfielder.length,
+    forward: f.positions.forward.length,
+  }
+}
+
+export const TOTAL_PLAYERS = 11

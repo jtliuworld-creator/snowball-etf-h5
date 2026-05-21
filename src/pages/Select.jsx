@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGame } from '../context/GameContext.jsx'
 import { ETF_POOL } from '../data/etfs.js'
+import { getPositionCounts, TOTAL_PLAYERS } from '../data/formations.js'
 import { calcLineupScores, calcComment } from '../utils/scoring.js'
 import { analytics, saveSelection } from '../utils/analytics.js'
+import { sortPoolByRotation } from '../utils/sponsorRotation.js'
 import EtfCard from '../components/EtfCard.jsx'
 
 const TABS = [
@@ -20,53 +22,67 @@ export default function Select() {
 
   useEffect(() => { analytics.pageView('select') }, [])
 
+  const counts = useMemo(() => getPositionCounts(state.formation), [state.formation])
   const selected = state.selectedEtfs
-  const filledCount = Object.values(selected).filter(Boolean).length
-  const allFilled = filledCount === 4
+  const filledTotal = Object.values(selected).reduce((s, arr) => s + arr.length, 0)
+  const allFilled = filledTotal === TOTAL_PLAYERS
 
-  function selectEtf(etf) {
-    dispatch({ type: 'SET_ETF', position: etf.position, etf })
+  function isSelected(etf) {
+    return selected[etf.position]?.some(e => e.id === etf.id)
+  }
+
+  function toggleEtf(etf) {
+    const max = counts[etf.position] || 0
+    dispatch({ type: 'TOGGLE_ETF', etf, max })
     analytics.etfSelect(etf.id, etf.position)
-    // Auto-advance to next empty tab
-    const keys = ['forward', 'midfielder', 'defender', 'goalkeeper']
-    const nextEmpty = keys.find(k => k !== etf.position && !selected[k])
-    if (nextEmpty) setTimeout(() => setActiveTab(nextEmpty), 300)
+
+    // 选满当前位置 → 自动跳到下一个未满
+    const willBeFilled = (selected[etf.position]?.length || 0) + 1 === max
+    const alreadyHas = isSelected(etf)
+    if (willBeFilled && !alreadyHas) {
+      const order = ['forward', 'midfielder', 'defender', 'goalkeeper']
+      const nextEmpty = order.find(k => k !== etf.position && (selected[k]?.length || 0) < counts[k])
+      if (nextEmpty) setTimeout(() => setActiveTab(nextEmpty), 300)
+    }
   }
 
   function handleDone() {
-    const scores = calcLineupScores(state.selectedEtfs, state.formation)
+    const scores = calcLineupScores(selected, state.formation)
     const comment = calcComment(scores)
     dispatch({ type: 'SET_SCORES', scores, comment })
-    saveSelection(state.selectedEtfs, state.formation)
+    saveSelection(selected, state.formation)
     analytics.lineupCreate({ formation: state.formation, personality: state.personality })
     navigate('/result')
   }
 
-  const pool = ETF_POOL[activeTab] || []
+  const sortedPool = useMemo(() => sortPoolByRotation(ETF_POOL[activeTab] || []), [activeTab])
 
   return (
     <div className="page select-page">
       <div className="page-header">
         <button className="btn-back" onClick={() => navigate('/formation')}>← 返回</button>
         <h2 className="page-header-title">选择ETF球员</h2>
-        <span className="select-progress-badge">{filledCount}/4</span>
+        <span className="select-progress-badge">{filledTotal}/{TOTAL_PLAYERS}</span>
       </div>
 
-      {/* 已选概览 */}
+      {/* 已选概览 4 个 slot */}
       <div className="select-overview">
-        {TABS.map(tab => (
-          <div
-            key={tab.key}
-            className={`select-slot ${selected[tab.key] ? 'filled' : ''} ${activeTab === tab.key ? 'active' : ''}`}
-            style={{ borderColor: activeTab === tab.key ? tab.color : undefined }}
-            onClick={() => setActiveTab(tab.key)}
-          >
-            <div className="select-slot-label" style={{ color: tab.color }}>{tab.label}</div>
-            <div className="select-slot-value">
-              {selected[tab.key] ? selected[tab.key].name : '待选'}
+        {TABS.map(tab => {
+          const have = selected[tab.key]?.length || 0
+          const need = counts[tab.key]
+          const filled = have === need
+          return (
+            <div
+              key={tab.key}
+              className={`select-slot ${filled ? 'filled' : ''} ${activeTab === tab.key ? 'active' : ''}`}
+              style={{ borderColor: activeTab === tab.key ? tab.color : undefined }}
+              onClick={() => setActiveTab(tab.key)}
+            >
+              <div className="select-slot-label" style={{ color: tab.color }}>{tab.label}</div>
+              <div className="select-slot-count">{have}/{need}</div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* 分类 Tab */}
@@ -78,19 +94,19 @@ export default function Select() {
             style={activeTab === tab.key ? { background: tab.color, borderColor: tab.color } : {}}
             onClick={() => setActiveTab(tab.key)}
           >
-            {tab.label}
+            {tab.label} <span className="tab-count">{selected[tab.key]?.length || 0}/{counts[tab.key]}</span>
           </button>
         ))}
       </div>
 
       {/* ETF 列表 */}
       <div className="select-list">
-        {pool.map(etf => (
+        {sortedPool.map(etf => (
           <EtfCard
             key={etf.id}
             etf={etf}
-            selected={selected[activeTab]?.id === etf.id}
-            onSelect={selectEtf}
+            selected={isSelected(etf)}
+            onSelect={toggleEtf}
           />
         ))}
       </div>
@@ -101,7 +117,7 @@ export default function Select() {
           onClick={allFilled ? handleDone : undefined}
           disabled={!allFilled}
         >
-          {allFilled ? '生成阵容评分 →' : `还需选 ${4 - filledCount} 个位置`}
+          {allFilled ? '生成阵容评分 →' : `还需选 ${TOTAL_PLAYERS - filledTotal} 只`}
         </button>
       </div>
 

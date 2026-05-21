@@ -1,12 +1,19 @@
-import { FORMATIONS } from '../data/formations.js'
+import { FORMATIONS, TOTAL_PLAYERS } from '../data/formations.js'
+
+/** 把 selectedEtfs（可能是单选对象 or 数组）扁平化成一个数组 */
+function flattenSelected(selectedEtfs) {
+  return Object.values(selectedEtfs || {})
+    .flatMap(v => (Array.isArray(v) ? v : [v]))
+    .filter(Boolean)
+}
 
 export function calcLineupScores(selectedEtfs, formation) {
-  const etfs = Object.values(selectedEtfs).filter(Boolean)
+  const etfs = flattenSelected(selectedEtfs)
   if (etfs.length === 0) return null
 
   const avg = (key) => Math.round(etfs.reduce((s, e) => s + e.scores[key], 0) / etfs.length)
   const bonus = FORMATIONS[formation]?.bonus || { offense: 0, defense: 0, control: 0 }
-  const allFilled = etfs.length === 4
+  const allFilled = etfs.length === TOTAL_PLAYERS
 
   const raw = {
     offense: Math.min(100, avg('offense') + bonus.offense),

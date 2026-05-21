@@ -24,27 +24,26 @@ export default function FieldView({ formation, selectedEtfs, mini = false }) {
         <div className="field-goal-top" />
         <div className="field-goal-bottom" />
 
-        {/* 球员位置 */}
+        {/* 球员位置 — 11 个圆点，每个对应一只 ETF */}
         {POSITION_KEYS.map(pos => {
           const coords = fmt.positions[pos] || []
-          const etf = selectedEtfs?.[pos]
+          const etfList = selectedEtfs?.[pos] || []
           const color = POSITION_COLORS[pos]
-          return coords.map(([x, y], i) => (
-            <div
-              key={`${pos}-${i}`}
-              className="field-player"
-              style={{ left: `${x}%`, top: `${y}%`, borderColor: color }}
-            >
-              <div className="field-player-dot" style={{ background: color }} />
-              {i === 0 && etf && (
-                <div className="field-player-name">{etf.name}</div>
-              )}
-              {i > 0 && etf && (
-                <div className="field-player-name">{etf.name.slice(0, 5)}</div>
-              )}
-              {!etf && <div className="field-player-name empty">?</div>}
-            </div>
-          ))
+          return coords.map(([x, y], i) => {
+            const etf = etfList[i]
+            return (
+              <div
+                key={`${pos}-${i}`}
+                className="field-player"
+                style={{ left: `${x}%`, top: `${y}%`, borderColor: color }}
+              >
+                <div className="field-player-dot" style={{ background: color }} />
+                <div className={`field-player-name ${etf ? '' : 'empty'}`}>
+                  {etf ? (etf.name.length > 7 ? etf.name.slice(0, 6) + '…' : etf.name) : '?'}
+                </div>
+              </div>
+            )
+          })
         })}
 
         {/* 阵型标签 */}
