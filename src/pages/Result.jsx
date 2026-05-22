@@ -142,7 +142,7 @@ export default function Result() {
   // 分享朋友圈
   async function shareToFriends() {
     if (!imgSrc) return
-    await shareToFriendCircle(imgSrc, state.teamName)
+    await shareToFriendCircle(imgSrc, '来战！我的 ETF 世界杯阵容')
     analytics.shareClick()
   }
 

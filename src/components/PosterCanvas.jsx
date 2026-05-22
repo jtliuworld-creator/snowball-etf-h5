@@ -99,7 +99,7 @@ const PosterCanvas = forwardRef(function PosterCanvas(_, ref) {
       <div className="poster-bottom-row">
         <div className="poster-bottom-text">
           <div className="poster-risk">本阵容仅为个人趣味配置展示，不构成投资建议。基金有风险，投资需谨慎。</div>
-          <div className="poster-footer">雪球 · 做ETF球队老板</div>
+          <div className="poster-footer">雪球 · ETF 世界杯阵容挑战</div>
           <div className="poster-qr-hint">扫码进入活动</div>
         </div>
         {qrDataUrl && <img src={qrDataUrl} alt="二维码" className="poster-qr" />}

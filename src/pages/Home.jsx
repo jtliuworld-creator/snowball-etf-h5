@@ -28,8 +28,8 @@ export default function Home() {
       </div>
 
       <div className="home-content">
-        <div className="home-badge">⚽ 做ETF球队老板</div>
-        <h1 className="home-title">做自己的<br /><span className="home-title-accent">ETF球队老板</span></h1>
+        <div className="home-badge">⚽ 雪球 ETF 世界杯</div>
+        <h1 className="home-title">来战！我的<br /><span className="home-title-accent">ETF 世界杯阵容</span></h1>
         <p className="home-subtitle">选前锋、配中场、稳后防<br />搭出你的ETF冠军阵容</p>
 
         <div className="home-cards-preview">
