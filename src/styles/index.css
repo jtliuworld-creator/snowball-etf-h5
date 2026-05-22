@@ -402,7 +402,7 @@ input { font-family: inherit; }
 }
 
 /* ===== 选ETF页 ===== */
-.select-page { padding-bottom: 120px; }
+.select-page { padding-bottom: 170px; }
 .select-progress-badge {
   background: var(--gold);
   color: #0a0a0a;
@@ -1260,10 +1260,11 @@ input { font-family: inherit; }
 /* 选 ETF 页底部 — 各位置进度明细 */
 .select-pos-progress {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 10px;
-  padding: 10px 12px;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  justify-content: center;
+  margin-bottom: 8px;
+  padding: 7px 12px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-sm);
@@ -1271,9 +1272,10 @@ input { font-family: inherit; }
 .spp-item {
   font-size: 12px;
   color: var(--text);
+  white-space: nowrap;
 }
 .spp-item b { color: var(--gold); font-weight: 800; }
-.spp-item.done { color: var(--text-dim); }
+.spp-item.done, .spp-item.done b { color: var(--text-dim); }
 
 /* 隐藏的海报画布 — 用于 html2canvas 截图，定位 -9999px 不显示但仍可渲染 */
 .poster-offscreen {

@@ -121,10 +121,7 @@ export default function Select() {
               const done = have === need
               return (
                 <span key={tab.key} className={`spp-item ${done ? 'done' : ''}`}>
-                  {tab.short}
-                  {done
-                    ? <> 已选 {have} 支 ✓</>
-                    : <> 已选 {have}，还需 <b>{need - have}</b> 支</>}
+                  {tab.short} <b>{have}</b>/{need}{done ? ' ✓' : ''}
                 </span>
               )
             })}
