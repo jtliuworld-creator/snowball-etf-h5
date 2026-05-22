@@ -95,7 +95,7 @@ const sections = [
   new Paragraph({
     alignment: AlignmentType.CENTER,
     spacing: { before: 1200, after: 240 },
-    children: [new TextRun({ text: '「做 ETF 球队老板」H5 招商说明书', font: FONT, size: 44, bold: true, color: ACCENT })],
+    children: [new TextRun({ text: '「来战！我的 ETF 世界杯阵容」H5 招商说明书', font: FONT, size: 36, bold: true, color: ACCENT })],
   }),
   new Paragraph({
     alignment: AlignmentType.CENTER,
@@ -123,7 +123,7 @@ const sections = [
   H1('一、项目概况'),
 
   H2('1.1 项目定位'),
-  P('「做 ETF 球队老板」是一款面向雪球社区球友的轻量互动 H5 游戏。用户通过完成 3 题人格测试 → 选择阵型 → 挑选 11 只 ETF 组成"球队"，最终生成一张个性化阵容海报，跟帖到雪球活动主贴下方集赞冲榜。'),
+  P('「来战！我的 ETF 世界杯阵容」是一款面向雪球社区球友的轻量互动 H5 游戏。用户通过完成 3 题人格测试 → 选择阵型 → 挑选 11 只 ETF 组成"球队"，生成个性化阵容海报，并参与 H5 页面内抽奖赢取雪球周边奖品。'),
 
   H2('1.2 产品形态'),
   bullet('载体：移动端 H5（375 - 430px 适配各机型）'),
@@ -139,7 +139,7 @@ const sections = [
   H2('1.4 商业价值'),
   bullet('品牌曝光：用户在选 ETF、生成海报、扫码传播每个环节都接触招商方品牌'),
   bullet('精准触达：用户已表明对 ETF 投资感兴趣，是基金公司目标客群'),
-  bullet('社交裂变：海报跟帖到主贴 + 朋友圈分享 + 二维码扫码进入，三层裂变路径'),
+  bullet('社交裂变：海报二维码扫码进入 + 中奖晒贴，多层裂变路径'),
   bullet('一键自选：用户可一键将 11 只 ETF 加入雪球自选列表，长期触达'),
 
   // ===== 二、核心玩法 =====
@@ -199,7 +199,7 @@ const sections = [
   bullet('按所选阵型，从 4 个位置（前锋 / 中场 / 后卫 / 门将）的产品池里挑选共 11 只 ETF'),
   bullet('每只产品展示：位置 / 名称 / 基金公司 / 代码 / 近一周涨跌幅 / 一句话简介 / 风险等级'),
   bullet('每个位置选满自动跳到下一位置；可点击已选 ETF 取消'),
-  bullet('每个位置的第一只产品自带「今日推荐」金色徽章（详见招商资源位）'),
+  bullet('付费招商客户的产品在所属位置池中置顶展示（详见招商资源位）'),
 
   H2('步骤 4：阵容评分 + 海报生成'),
   bullet('系统计算 5 维评分：进攻力 / 防守力 / 控场力 / 平衡度 / 个性值'),
@@ -207,37 +207,35 @@ const sections = [
   bullet('用户可编辑队名（默认随机生成 30+ 个候选名称）'),
   bullet('一键生成专属阵容海报：11 个球员位置、球场图、5 维评分、点评、奖品提示、雪球品牌二维码'),
 
-  H2('步骤 5：一键发布'),
-  bullet('阵容评分页提供 3 个操作按钮（详见下方"互动机制"章节）：'),
-  bullet('一键发布：加自选（付费招商客户的产品）→ 生成海报 → 自动保存到相册', 1),
-  bullet('分享朋友圈：将海报分享到微信朋友圈（生成海报后可用）', 1),
-  bullet('重新组队：返回重新挑选阵容', 1),
-  bullet('用户保存海报后，前往雪球活动主贴评论区跟帖发布，邀请球友点赞冲榜', 1),
+  H2('步骤 5：一键发布 + 抽奖'),
+  bullet('点「一键发布」：先加自选（付费招商客户的产品）→ 再生成专属阵容海报', 1),
+  bullet('海报生成后立即抽奖，即时弹出是否中奖', 1),
+  bullet('中奖后，用户可选择到雪球活动主帖发帖晒奖', 1),
 
   new Paragraph({ children: [new PageBreak()] }),
 
-  // ===== 三、奖励机制 =====
-  H1('三、奖励机制'),
+  // ===== 三、抽奖机制 =====
+  H1('三、抽奖机制'),
 
   H2('3.0 活动时间'),
   bullet('2026.06.12 — 2026.07.20，共 39 天'),
 
-  H2('3.1 评奖机制（按周评奖）'),
-  bullet('结算节点：每周日 24:00 结算本周点赞数'),
-  bullet('计票口径：本周在雪球活动主贴下用户海报跟帖的点赞数'),
-  bullet('周榜第 1 名：雪球品牌白酒 × 1 瓶'),
-  bullet('周榜第 2 / 3 / 4 / 5 名：雪球品牌棒球帽 × 1 顶'),
+  H2('3.1 抽奖玩法'),
+  bullet('活动采用 H5 页面内抽奖（不依赖主贴点赞）'),
+  bullet('获得抽奖机会的条件：用户在 H5 完成「加自选 + 生成海报」'),
+  bullet('频次：一周一人仅 1 次抽奖机会'),
+  bullet('即时性：海报生成后立即抽奖，结果即时弹出（中奖 / 谢谢参与）'),
+  bullet('中奖后：用户可选择到雪球活动主帖发帖晒奖'),
 
-  H2('3.2 点赞规则'),
-  bullet('所有点赞均发生在雪球活动主贴评论区，认用户海报跟帖的点赞数'),
-  bullet('每个用户每天最多为同一条海报点赞 1 次'),
-  bullet('检测到刷赞 / 小号互赞将取消评奖资格'),
+  H2('3.2 奖品设置（每周）'),
+  bullet('雪球品牌白酒 × 1 瓶（稀有奖）'),
+  bullet('雪球品牌棒球帽 × 约 10 顶（常规奖）'),
+  bullet('每周奖品数量为参考值，中奖概率按库存 / 参与人数设定'),
 
-  H2('3.3 开奖与发奖通知'),
-  bullet('开奖公示：每周发布一篇雪球帖子，公示当周获奖人员名单'),
-  bullet('实时通知：获奖结果通过雪球「站内信」实时发送给获奖球友'),
-  bullet('实物发放：获奖球友收到站内信后，按提示回复收货信息，由雪球官方统一寄出'),
-  bullet('未及时回复 / 地址失效导致无法送达的，视为放弃奖品'),
+  H2('3.3 发奖通知'),
+  bullet('用户在 H5 即时得知中奖结果'),
+  bullet('中奖球友提供收货信息（可经雪球站内信跟进），由雪球官方统一寄出'),
+  bullet('未及时提供 / 地址失效导致无法送达的，视为放弃奖品'),
 
   // ===== 四、招商资源位 =====
   H1('四、招商资源位（重点）'),
@@ -296,71 +294,40 @@ const sections = [
   bullet('风险等级'),
   bullet('技能名（如"爆发突击" / "稳健守护"等趣味标签，合作方自定义）'),
 
-  H2('4.2 资源位 B：招商「跑马灯」轮转头牌位'),
-  H3('机制说明'),
-  P('已付费的招商客户占据每个位置 ETF 列表的头部「头牌位」。每个客户在所属位置贡献一只「头牌产品」，按轮转顺序排列。排在第一位的产品自带「今日推荐」金色徽章 + 渐变光晕背景。'),
-  bullet('活动第 1 天：头牌位按招商客户签约顺序排列'),
-  bullet('从第 2 天起：整体「跑马灯式」轮转一位 —— 原第一位移到末位，其余依次前移'),
-  bullet('保证每个招商客户在轮转周期内，都能轮到「第一位 / 今日推荐」的曝光'),
-  H3('轮转示例（假设 A=华夏、B=易方达、C=富国 三家签约）'),
-  table([1560, 2520, 2520, 2520], [
-    new TableRow({
-      tableHeader: true,
-      children: [
-        cell('日期', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 1560 }),
-        cell('第一位（今日推荐）', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2520 }),
-        cell('第二位', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2520 }),
-        cell('第三位', { shading: 'F0F0F0', bold: true, align: AlignmentType.CENTER, width: 2520 }),
-      ],
-    }),
-    new TableRow({ children: [
-      cell('第 1 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
-      cell('华夏', { width: 2520, align: AlignmentType.CENTER, color: ACCENT, bold: true }),
-      cell('易方达', { width: 2520, align: AlignmentType.CENTER }),
-      cell('富国', { width: 2520, align: AlignmentType.CENTER }),
-    ] }),
-    new TableRow({ children: [
-      cell('第 2 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
-      cell('易方达', { width: 2520, align: AlignmentType.CENTER, color: ACCENT, bold: true }),
-      cell('富国', { width: 2520, align: AlignmentType.CENTER }),
-      cell('华夏', { width: 2520, align: AlignmentType.CENTER }),
-    ] }),
-    new TableRow({ children: [
-      cell('第 3 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
-      cell('富国', { width: 2520, align: AlignmentType.CENTER, color: ACCENT, bold: true }),
-      cell('华夏', { width: 2520, align: AlignmentType.CENTER }),
-      cell('易方达', { width: 2520, align: AlignmentType.CENTER }),
-    ] }),
-    new TableRow({ children: [
-      cell('第 4 天', { width: 1560, align: AlignmentType.CENTER, bold: true }),
-      cell('（回到第 1 天，循环往复）', { width: 7560, align: AlignmentType.CENTER, color: '999999' }),
-    ] }),
-  ]),
+  H2('4.2 资源位 B：招商售卖模型与加自选权益'),
+  H3('售卖规则'),
+  bullet('每周最多售卖给 2 个付费客户'),
+  bullet('每个客户提供 4 只 ETF：前锋 / 中场 / 后卫 / 门将 各 1 只'),
+  bullet('价格：10 万元 / 客户 / 周（参考价，最终以媒介报价为准）'),
+  bullet('客户产品进入对应位置的 ETF 池，获得选取页与海报曝光'),
+  H3('加自选优先级（核心权益）'),
+  bullet('用户在 H5 完成「加自选」时，每个客户只有 1 只产品被加入用户的雪球自选'),
+  bullet('客户需对自己的 4 只产品排优先级，指定最希望被加自选的 1 个位置'),
+  bullet('2 个客户 = 用户共加 2 只自选（来自 2 个不同位置）'),
+  bullet('加自选把产品沉淀进用户雪球自选列表，是长期触达资源，为本活动最核心的商业化权益'),
+  H3('排他性与下单顺序'),
+  bullet('一个客户选定某位置作为加自选优先位后，第二个客户不能再选同一位置'),
+  bullet('先下单的客户优先选位置，后下单的客户从剩余位置中选 —— 最终结果与下单顺序强相关'),
+  bullet('示例：客户 A 先下单选「前锋」→ 客户 B 只能从中场 / 后卫 / 门将中选'),
   H3('计价建议'),
-  bullet('轮转头牌位是核心商业化资源 —— 每个签约客户都能轮到"第一位"曝光，公平且稀缺'),
-  bullet('客户数越少，每家轮到"第一位"的频次越高（如 3 家签约 = 每 3 天轮到 1 次第一位）'),
-  bullet('建议按"签约席位数"定价：席位越少单价越高（稀缺性溢价）'),
-  bullet('名单顺序、轮转周期均可由运营后台配置'),
+  bullet('每周席位稀缺（仅 2 个），加自选优先位先到先得'),
+  bullet('下单顺序决定优先位选择权，本身即是稀缺性议价点，建议鼓励客户尽早下单'),
 
   H2('4.3 资源位 C：海报二维码'),
   H3('描述'),
-  P('生成的阵容海报右下角自带二维码，扫码进入 H5 活动首页。海报通过用户跟帖、朋友圈分享传播，二维码就是新用户获取入口。'),
+  P('生成的阵容海报右下角自带二维码，扫码进入 H5 活动首页。海报通过用户保存、中奖晒贴传播，二维码就是新用户获取入口。'),
   H3('当前指向'),
   bullet('H5 活动首页（https://jtliuworld-creator.github.io/snowball-etf-h5/）'),
   bullet('可改成招商方品牌官网、雪球公众号关注页、雪球App下载页等任意 URL'),
   bullet('支持给每个招商客户生成独立的"带渠道追踪参数"的二维码，便于复盘'),
 
-  H2('4.4 售卖与产品更换机制'),
-  H3('售卖单位'),
-  bullet('以「周」为售卖单位，参加 H5 的招商客户费用为 10 万元 / 周（参考价，最终以媒介报价为准）'),
-  bullet('客户可连续购买多周；多家客户同时在投时，通过跑马灯轮转公平分配头牌位'),
-  H3('每周换产品'),
-  bullet('客户每周可更换一批投放的 ETF 产品'),
-  bullet('客户通过《ETF 厂商产品提报表》（随附 Excel）提报产品，按前锋 / 中场 / 后卫 / 门将分位置填写'),
-  bullet('运营同学按提报表，在后台 / 产品配置中手动更新当周的 ETF 名单'),
-  bullet('当前 H5 产品数据以配置文件形式维护（src/data/etfs.js），已预留接口位，后续接 GET /api/etf-campaign/products 后改为后台可视化配置'),
+  H2('4.4 产品提报与每周更换'),
+  bullet('客户每周提报 4 只 ETF（前锋 / 中场 / 后卫 / 门将 各 1 只），并标注加自选优先级'),
+  bullet('通过《ETF 厂商产品提报表》（随附 Excel）提报，按位置分类填写'),
+  bullet('运营同学按提报表，在后台 / 产品配置中手动更新当周名单'),
+  bullet('当前 H5 产品数据以配置文件维护（src/data/etfs.js），已预留接口位，后续接 GET /api/etf-campaign/products 改为后台可视化配置'),
   H3('提报表字段'),
-  bullet('位置、ETF 简称、ETF 代码、基金公司、产品一句话简介、风险等级、建议球员技能名'),
+  bullet('位置、ETF 简称、ETF 代码、基金公司、产品一句话简介、风险等级、建议球员技能名、加自选优先级'),
   bullet('五维评分由雪球运营统一设定，近一周涨跌幅由系统接行情接口，厂商均无需填写'),
 
   // ===== 五、用户曝光路径 =====
@@ -382,7 +349,7 @@ const sections = [
       cell('1', { width: 720, align: AlignmentType.CENTER, bold: true }),
       cell('选 ETF 页（前锋）', { width: 2520 }),
       cell('30-60 秒', { width: 1620, align: AlignmentType.CENTER }),
-      cell('第一位「今日推荐」品牌曝光、其他 7 只产品平铺曝光', { width: 3780 }),
+      cell('付费客户产品置顶曝光、其他产品平铺曝光', { width: 3780 }),
     ] }),
     new TableRow({ children: [
       cell('2', { width: 720, align: AlignmentType.CENTER, bold: true }),
@@ -416,38 +383,34 @@ const sections = [
     ] }),
     new TableRow({ children: [
       cell('7', { width: 720, align: AlignmentType.CENTER, bold: true }),
-      cell('一键加自选', { width: 2520 }),
+      cell('一键发布·加自选', { width: 2520 }),
       cell('永久（接 JSBridge 后）', { width: 1620, align: AlignmentType.CENTER }),
-      cell('11 只产品永久进入用户雪球自选列表，每次打开雪球都触达', { width: 3780, color: RED }),
+      cell('付费客户的优先级产品进入用户雪球自选列表，每次打开雪球都触达', { width: 3780, color: RED }),
     ] }),
   ]),
 
   new Paragraph({ children: [new PageBreak()] }),
 
-  // ===== 六、互动机制（发布 / 加自选 / 分享） =====
-  H1('六、海报发布互动机制'),
+  // ===== 六、一键发布与抽奖 =====
+  H1('六、一键发布与抽奖机制'),
 
-  P('阵容评分页提供三个操作按钮：'),
+  H2('6.1 一键发布流程'),
+  P('阵容评分页点「一键发布」，依次自动执行：'),
+  numbered('加自选：把本周付费招商客户的产品加入用户雪球自选（每个客户 1 只优先级产品）'),
+  numbered('加自选成功后，生成专属阵容海报'),
+  numbered('海报生成完成 → 立即触发抽奖 → 即时弹出结果'),
+  P('💡 招商客户最核心的商业价值点 —— 用户每次发布，付费客户的优先级 ETF 都会被加入其雪球自选列表，进入长期触达通道。', { run: { italics: true, color: SECOND_ACCENT } }),
 
-  H2('6.1 主推：🎁 一键发布（金色高亮按钮）'),
-  P('用户点击一次，依次自动执行：'),
-  numbered('加自选：将阵容中「付费招商客户」的产品强制加入雪球自选列表'),
-  numbered('加自选成功后，才会生成海报（不加自选则无法生成）'),
-  numbered('海报生成后自动保存到相册'),
-  P('💡 这是招商客户最核心的商业价值点 —— 用户每次发布海报，付费客户的 ETF 都会被强制加入其雪球自选列表，进入长期触达通道。', { run: { italics: true, color: SECOND_ACCENT } }),
-  H3('加自选范围'),
-  bullet('只强制加入「付费招商客户」的产品，不是阵容里全部 11 只'),
-  bullet('哪些客户为付费客户由后台名单决定 —— 预留接口 GET /api/etf-campaign/sponsors，运营可配置'),
-  bullet('当前 H5 演示用代码内置名单（华夏 / 易方达 / 富国）模拟付费客户'),
+  H2('6.2 加自选范围'),
+  bullet('只加「付费招商客户」的优先级产品（每周 ≤ 2 个客户，各 1 只），不是阵容全部 11 只'),
+  bullet('哪些客户为付费客户、各自加哪只产品，由后台名单决定 —— 接口 GET /api/etf-campaign/sponsors'),
+  bullet('排他性：2 个客户的加自选位置不能相同，先下单者优先选位（见 4.2）'),
 
-  H2('6.2 分享朋友圈'),
-  P('生成海报后可用，将海报分享到微信朋友圈，扩大传播。'),
-
-  H2('6.3 重新组队'),
-  P('返回首页重新挑选阵容。'),
-
-  H3('集赞与活动参与'),
-  P('海报通过「一键发布」自动保存到相册后，用户前往雪球活动主贴评论区跟帖发布海报，球友在主贴下点赞，即参与每周评奖。', { run: { italics: true, color: '666666' } }),
+  H2('6.3 抽奖'),
+  bullet('海报生成后立即抽奖，结果即时弹出（中奖 / 谢谢参与）'),
+  bullet('一周一人仅 1 次抽奖机会'),
+  bullet('奖品：每周雪球白酒 × 1 瓶 + 雪球棒球帽 × 约 10 顶'),
+  bullet('中奖后，用户可选择到雪球活动主帖发帖晒奖，形成二次传播'),
 
   // ===== 七、品牌资产 =====
   H1('七、品牌资产 & 视觉规范'),
@@ -475,14 +438,14 @@ const sections = [
   H2('8.1 雪球 App JSBridge 占位'),
   P('当前 H5 已预留两个雪球 JSBridge 调用点，封装在 src/utils/xueqiuBridge.js：'),
   bullet('addToWatchlist(codes) —— 一键加自选'),
-  bullet('shareToFriendCircle(image, title) —— 分享到朋友圈'),
+  bullet('发帖到活动主帖 —— 中奖后引导用户晒奖（建议接雪球发帖 JSBridge）'),
   P('上线时，由雪球研发同学告知具体 native 方法名，前端替换两行代码即可生效。'),
 
-  H2('8.2 后端接口待对接（标记 // TODO 的位置）'),
+  H2('8.2 后端接口待对接'),
   bullet('GET /api/etf-campaign/products —— ETF 产品池（替换当前 mock 数据）'),
   bullet('POST /api/etf-campaign/lineups —— 用户阵容提交'),
-  bullet('GET /api/etf-campaign/rankings —— 真实点赞榜单'),
-  bullet('GET /api/etf-campaign/sponsors —— 招商客户名单（用于轮值）'),
+  bullet('POST /api/etf-campaign/lottery —— 抽奖（机会校验 + 中奖结果）'),
+  bullet('GET /api/etf-campaign/sponsors —— 本周付费客户 + 各自加自选优先级产品'),
   bullet('ETF 近一周涨跌幅 —— 当前 mock，接行情接口'),
 
   H2('8.3 部署'),
@@ -493,17 +456,16 @@ const sections = [
   // ===== 九、迭代路径 =====
   H1('九、迭代路径'),
 
-  H2('9.1 第 1 期：当前已完成（招商案使用版本）'),
-  bullet('完整玩法链路（测试 → 阵型 → 选 ETF → 评分 → 海报 → 跟帖）'),
-  bullet('招商跑马灯轮转头牌位 + 今日推荐徽章'),
+  H2('9.1 第 1 期：当前已完成（原型版本）'),
+  bullet('完整玩法链路（测试 → 阵型 → 选 ETF → 评分 → 海报）'),
+  bullet('招商客户产品置顶展示'),
   bullet('海报二维码导流'),
-  bullet('一键加自选 + 朋友圈分享按钮（占位等接 SDK）'),
+  bullet('一键发布 + 加自选按钮（占位等接 SDK）'),
 
-  H2('9.2 第 2 期：接接口后'),
+  H2('9.2 第 2 期：接接口 + 抽奖'),
   bullet('真实 ETF 产品池 + 近一周涨跌幅'),
-  bullet('真实点赞计数（替换 localStorage mock）'),
-  bullet('真实榜单数据'),
-  bullet('雪球 JSBridge 接通（加自选 + 朋友圈分享真实生效）'),
+  bullet('H5 页面内抽奖（接后端抽奖接口，机会校验 + 中奖概率控制）'),
+  bullet('雪球 JSBridge 接通（加自选真实生效）'),
 
   H2('9.3 第 3 期：商业化扩展'),
   bullet('支持每个招商客户独立的渠道追踪二维码'),
@@ -540,12 +502,12 @@ const sections = [
       cell('11 只（按阵型分配）', { width: 6900 }),
     ] }),
     new TableRow({ children: [
-      cell('招商轮转机制', { width: 2340 }),
-      cell('跑马灯轮转头牌位，签约席位数可配置', { width: 6900 }),
+      cell('招商售卖模型', { width: 2340 }),
+      cell('每周 ≤ 2 个客户，10 万元/客户/周，每客户 4 只产品（前/中/后/门）', { width: 6900 }),
     ] }),
     new TableRow({ children: [
-      cell('开奖与通知', { width: 2340 }),
-      cell('每日发帖公示名单 + 站内信实时通知获奖球友', { width: 6900 }),
+      cell('用户奖励机制', { width: 2340 }),
+      cell('H5 页面内抽奖，一周一人 1 次；每周白酒 ×1 + 棒球帽 ×约10', { width: 6900 }),
     ] }),
   ]),
 

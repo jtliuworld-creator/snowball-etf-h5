@@ -182,9 +182,10 @@ C.push(numbered('人格测试：3 道选择题 → 系统计算"老板类型"'))
 C.push(numbered('人格结果页：展示人格画像 + 推荐阵型'))
 C.push(numbered('阵型选择：5 种阵型，推荐阵型置顶'))
 C.push(numbered('选 ETF 球员：按阵型挑满 11 只（4 个位置）'))
-C.push(numbered('阵容结果页：5 维评分 + 系统点评 + 一键发布'))
-C.push(numbered('一键发布：加自选 → 生成海报 → 保存到相册'))
-C.push(numbered('用户把海报跟帖到雪球活动主贴 / 分享朋友圈'))
+C.push(numbered('阵容结果页：5 维评分 + 系统点评'))
+C.push(numbered('一键发布：加自选（付费客户产品）→ 生成海报'))
+C.push(numbered('海报生成后立即抽奖，即时弹出是否中奖'))
+C.push(numbered('中奖后可选择到雪球活动主帖发帖晒奖'))
 
 C.push(H2('页面路由表'))
 const rtW = [2400, 2400, 4560]
@@ -219,7 +220,7 @@ C.push(bullet('副标题：选前锋、配中场、稳后防 / 搭出你的 ETF 
 C.push(bullet('4 个位置预览卡：前锋·科技成长 / 中场·宽基核心 / 后卫·红利低波 / 门将·黄金压舱'))
 C.push(bullet('主按钮：⚡ 开始组队'))
 C.push(bullet('次按钮：查看热门 ETF 球员榜 →'))
-C.push(bullet('5 步玩法卡（点击进规则页）：①3 题测试找"老板风格" ②选阵型+配 11 只 ETF ③生成海报跟帖主贴 ④每周点赞 TOP 1 得白酒一瓶 ⑤每周点赞 2-5 名得棒球帽'))
+C.push(bullet('玩法卡（点击进规则页）：①3 题测试找"老板风格" ②选阵型+配 11 只 ETF ③一键发布加自选+生成海报 ④海报生成后立即抽奖 ⑤一周一次机会，抽帽子 / 白酒'))
 
 C.push(H2('4.2 人格测试 Quiz'))
 C.push(P('3 道单选题，每题 4 个选项，每个选项对应一种人格类型（aggressive / control / defensive / balanced）。'))
@@ -290,7 +291,9 @@ C.push(bullet('球场图：按阵型坐标渲染 11 个球员圆点 + ETF 名称
 C.push(bullet('已选球员列表：11 只 ETF 按位置分组展示'))
 C.push(bullet('阵容战力评分：5 维评分条（见 5.4）'))
 C.push(bullet('系统点评：6 种规则文案之一（见 5.4）'))
-C.push(bullet('操作区 3 个按钮（见 5.6 / 第六章）：① 一键发布 ② 分享朋友圈 ③ 重新组队'))
+C.push(bullet('一键发布：加自选 → 生成海报 → 立即抽奖（见第六章）'))
+C.push(bullet('抽奖结果即时弹出；中奖后可选择到雪球活动主帖发帖晒奖'))
+C.push(note('当前线上原型 Result 页仍为旧版「点赞冲榜」交互（一键发布 / 分享朋友圈 / 重新组队）。抽奖玩法以本文档第六章为准，待产研重构。'))
 
 C.push(H2('4.7 活动规则 Rules'))
 C.push(P('独立页面 #/rules，首页右上角「游戏规则 →」进入。包含：怎么玩、点赞规则、评奖规则、活动时间、开奖与通知、注意事项。完整规则见第六章。'))
@@ -339,61 +342,76 @@ C.push(bullet('进攻力 ≥ 80 且 防守力 < 65：你的阵容火力很猛，
 C.push(bullet('防守力 ≥ 80 且 进攻力 < 65：你的阵容防守很稳，像一支擅长守住底线的球队……'))
 C.push(bullet('兜底：你搭建了一支有自己特色的球队，进可攻、退可守，等待属于你的高光时刻。'))
 
-C.push(H2('5.3 招商客户「跑马灯」轮转'))
-C.push(P('已付费招商客户占据每个位置 ETF 列表的头部「头牌位」。每个客户在所属位置贡献其头牌产品（sortWeight 最高的一只），按轮转顺序排列；排第一位的产品带「今日推荐」金色徽章。'))
-C.push(bullet('活动第 1 天：头牌位按招商客户签约顺序排列'))
-C.push(bullet('从第 2 天起：整体跑马灯式轮转一位，原第一位移到末位'))
-C.push(bullet('示例（华夏→易方达→富国）：第 1 天华夏/易方达/富国，第 2 天易方达/富国/华夏，第 3 天富国/华夏/易方达，循环'))
-C.push(note('当前付费名单写死在 src/utils/sponsorRotation.js 的 PAID_SPONSORS；上线需接后端接口 GET /api/etf-campaign/sponsors。活动起始日 ACTIVITY_START 也在该文件。'))
+C.push(H2('5.3 招商售卖模型'))
+C.push(H3('售卖规则'))
+C.push(bullet('每周最多售卖给 2 个付费客户'))
+C.push(bullet('每个客户提供 4 只 ETF：前锋 / 中场 / 后卫 / 门将 各 1 只'))
+C.push(bullet('价格：10 万元 / 客户 / 周'))
+C.push(bullet('8 只产品（2 客户 × 4 只）进入对应位置的 ETF 池，获得展示曝光'))
+C.push(H3('加自选优先级'))
+C.push(bullet('每个客户对自己的 4 只产品排优先级，指定最希望被加自选的 1 个位置'))
+C.push(bullet('用户在 H5 完成「加自选」时，每个客户只有 1 只产品被加入自选 —— 即该客户优先级最高位置的那只'))
+C.push(bullet('2 个客户 = 用户共加 2 只自选（来自 2 个不同位置）'))
+C.push(H3('排他性与下单顺序'))
+C.push(bullet('一个客户选定某个位置类型作为加自选优先位后，第二个客户不能再选同一位置类型'))
+C.push(bullet('先下单的客户优先选位置，后下单的客户只能从剩余位置中选 —— 最终结果与下单顺序强相关'))
+C.push(bullet('示例：客户 A 先下单选「前锋」→ 客户 B 下单时只能从中场 / 后卫 / 门将中选'))
+C.push(note('H5 侧只负责按后端返回的"本周付费客户 + 各自加自选产品"执行加自选；排他性、下单顺序判定由运营后台 / 招商侧处理。接口见第七章。'))
 
 C.push(H2('5.4 海报生成'))
 C.push(bullet('用 html2canvas 截取隐藏的 PosterCanvas 组件，scale 2，输出约 960px 宽 PNG'))
-C.push(bullet('海报内容：雪球 logo / 队名 / 阵型 / 球场 11 圆点 / 11 只 ETF 分组列表 / 5 维评分 / 系统点评 / 奖品提示 / 二维码'))
+C.push(bullet('海报内容：雪球 logo / 队名 / 阵型 / 球场 11 圆点 / 11 只 ETF 分组列表 / 5 维评分 / 系统点评 / 二维码'))
 C.push(bullet('二维码内容为 H5 首页 URL，扫码可进入活动；上线可改为带渠道追踪参数的 URL'))
+C.push(bullet('海报生成完成即触发抽奖（见第六章），结果即时弹出'))
 
-// ========== 六、抽奖与评奖规则 ==========
-C.push(H1('六、抽奖与评奖规则'))
-C.push(H2('6.1 玩法说明（规则页文案）'))
+// ========== 六、抽奖玩法与规则 ==========
+C.push(H1('六、抽奖玩法与规则'))
+C.push(note('重要变更：原"跟帖主贴集赞冲榜"玩法因实现限制已取消，改为 H5 页面内抽奖。本章为最新玩法，产研以此为准。'))
+
+C.push(H2('6.1 玩法说明'))
 C.push(numbered('完成 3 题人格测试，找到你的"老板风格"'))
 C.push(numbered('选阵型 + 挑选 11 只 ETF 组成你的球队'))
-C.push(numbered('生成专属阵容海报，保存图片'))
-C.push(numbered('打开雪球活动主贴，在评论区跟帖发布你的海报'))
-C.push(numbered('球友在主贴下方为你的海报点赞，集赞越多排名越靠前'))
+C.push(numbered('点「一键发布」：加自选 → 生成海报'))
+C.push(numbered('海报生成后立即抽奖，即时知道是否中奖'))
+C.push(numbered('中奖后可选择到雪球活动主帖发帖晒奖'))
 
-C.push(H2('6.2 点赞规则'))
-C.push(bullet('所有点赞均发生在雪球活动主贴评论区，认用户海报跟帖的点赞数'))
-C.push(bullet('每个用户每天最多为同一条海报点赞 1 次'))
-C.push(bullet('检测到刷赞 / 小号互赞将取消评奖资格'))
+C.push(H2('6.2 抽奖机制'))
+C.push(bullet('抽奖在 H5 页面内进行，不再依赖主贴点赞'))
+C.push(bullet('获得抽奖机会的条件：用户在 H5 完成「加自选 + 生成海报」'))
+C.push(bullet('频次：一周一人仅 1 次抽奖机会'))
+C.push(bullet('即时性：海报生成完成后立即触发抽奖，结果即时弹出（中奖 / 谢谢参与），无抽奖动画'))
+C.push(bullet('中奖后：用户可选择到雪球活动主帖发帖晒奖'))
+C.push(bullet('抽奖各环节需完整埋点（获得机会、抽奖触发、中奖结果、去主帖发帖）'))
 
-C.push(H2('6.3 评奖规则（按周评奖）'))
-const prW = [2200, 2400, 4760]
+C.push(H2('6.3 奖品设置'))
+const prW = [2600, 3000, 3760]
 C.push(table(prW, [
-  headerRow(['奖项', '评选方式', '奖品'], prW),
+  headerRow(['奖品', '每周数量（参考）', '说明'], prW),
   new TableRow({ children: [
-    cell('周榜第 1 名', { width: prW[0], bold: true, color: GOLD }),
-    cell('每周日 24:00 结算本周点赞数，第 1 名', { width: prW[1] }),
-    cell('雪球品牌白酒 × 1 瓶', { width: prW[2] }),
+    cell('雪球品牌白酒', { width: prW[0], bold: true, color: GOLD }),
+    cell('1 瓶 / 周', { width: prW[1], align: AlignmentType.CENTER }),
+    cell('稀有奖', { width: prW[2] }),
   ] }),
   new TableRow({ children: [
-    cell('周榜第 2-5 名', { width: prW[0], bold: true }),
-    cell('本周点赞数排名 2 / 3 / 4 / 5 名', { width: prW[1] }),
-    cell('雪球品牌棒球帽 × 1 顶', { width: prW[2] }),
+    cell('雪球品牌棒球帽', { width: prW[0], bold: true }),
+    cell('约 10 顶 / 周', { width: prW[1], align: AlignmentType.CENTER }),
+    cell('常规奖', { width: prW[2] }),
   ] }),
 ]))
-C.push(note('注：早期版本有"每日奖"和"获奖名额顺延"规则，现已取消。当前仅按周评奖。'))
+C.push(note('每周奖品数量为参考值，具体中奖概率由产研按奖品库存 / 参与人数设定。'))
 
-C.push(H2('6.4 开奖与通知'))
-C.push(bullet('每周获奖名单通过雪球官方发帖公示'))
-C.push(bullet('中奖结果通过雪球站内信实时通知获奖球友'))
-C.push(bullet('获奖球友收到站内信后，按提示回复收货信息，由雪球官方统一寄出'))
-C.push(bullet('未及时回复 / 地址失效导致无法送达的，视为放弃'))
+C.push(H2('6.4 中奖与发奖'))
+C.push(bullet('用户在 H5 即时得知中奖结果'))
+C.push(bullet('中奖球友需提供收货信息，由雪球官方统一寄出实物奖品'))
+C.push(bullet('收货信息可通过雪球站内信跟进收集'))
+C.push(bullet('未及时提供 / 地址失效导致无法送达的，视为放弃'))
 
 C.push(H2('6.5 一键发布与加自选机制'))
-C.push(P('阵容结果页操作区 3 个按钮：'))
-C.push(bullet('① 一键发布：先把"付费招商客户"的产品加入雪球自选 → 加成功后才生成海报 → 自动保存到相册。加自选是生成海报的前置条件。'))
-C.push(bullet('② 分享朋友圈：把海报分享到微信朋友圈（生成海报后可用）'))
-C.push(bullet('③ 重新组队：清空重来'))
-C.push(note('"加自选"只加付费招商客户的产品（非阵容全部 11 只）。付费名单见 5.3。加自选 / 分享朋友圈均为雪球 JSBridge 占位，见第七章。'))
+C.push(P('「一键发布」是获得抽奖机会的关键动作，依次执行：'))
+C.push(numbered('加自选：把本周付费招商客户的产品加入雪球自选（每个客户 1 只，见 5.3）'))
+C.push(numbered('生成海报'))
+C.push(numbered('海报生成完成 → 触发抽奖 → 即时弹出结果'))
+C.push(note('加自选的产品由后端接口返回（每个付费客户 1 只优先级产品），H5 照单加入；非阵容全部 11 只。加自选为雪球 JSBridge 调用，见第七章。'))
 
 // ========== 七、待接入（产研重点） ==========
 C.push(H1('七、待接入项（产研重点）'))
@@ -401,9 +419,10 @@ C.push(H2('7.1 后端接口'))
 const apiW = [3400, 5960]
 const apiRows = [
   ['GET /api/etf-campaign/products', 'ETF 产品池，替换 src/data/etfs.js mock'],
-  ['GET /api/etf-campaign/sponsors', '付费招商客户名单 + 签约顺序，替换 PAID_SPONSORS'],
+  ['GET /api/etf-campaign/sponsors', '本周付费客户 + 各自加自选的优先级产品（H5 照单加自选）'],
   ['POST /api/etf-campaign/lineups', '用户阵容提交（当前存 localStorage）'],
-  ['GET /api/etf-campaign/rankings', '真实点赞榜单（当前为 mock 假数据）'],
+  ['POST /api/etf-campaign/lottery', '抽奖：校验本周机会、执行抽奖、返回中奖结果'],
+  ['GET /api/etf-campaign/lottery/status', '查询用户本周是否已用过抽奖机会'],
   ['行情接口', 'ETF 近一周涨跌幅，替换 EtfCard.js 的 getWeeklyChange mock'],
 ]
 C.push(table(apiW, [
@@ -412,16 +431,16 @@ C.push(table(apiW, [
 ]))
 
 C.push(H2('7.2 雪球 JSBridge'))
-C.push(P('src/utils/xueqiuBridge.js 已封装两个占位方法，上线时替换为雪球 native 真实调用：'))
-C.push(bullet('addToWatchlist(codes)：一键加自选。真实实现需在加自选成功时返回 { ok: true }，失败返回 { ok: false }，由调用方据此决定是否放行海报生成。'))
-C.push(bullet('shareToFriendCircle(image, title)：分享到朋友圈。'))
+C.push(P('src/utils/xueqiuBridge.js 已封装占位方法，上线时替换为雪球 native 真实调用：'))
+C.push(bullet('addToWatchlist(codes)：加自选。真实实现需在加自选成功时返回 { ok: true }，失败返回 { ok: false }，由调用方据此决定是否放行后续生成海报 / 抽奖。'))
 C.push(bullet('海报保存：iOS WebView 内 a.click() 下载可能失效，建议接雪球 saveImage JSBridge。'))
+C.push(bullet('发帖到活动主帖：中奖后引导用户去主帖晒奖，建议接雪球发帖 JSBridge（携带海报图）。'))
 
 C.push(H2('7.3 其他上线前事项'))
 C.push(bullet('队名输入框：当前仅长度限制 + 特殊字符过滤，需补敏感词拦截'))
-C.push(bullet('点赞计数：当前为 localStorage mock，需接真实接口'))
+C.push(bullet('抽奖：需接后端抽奖接口，含"一周一人一次"机会校验、中奖概率 / 库存控制'))
 C.push(bullet('部署：从 GitHub Pages 迁移到雪球自有 CDN（vite.config.js base 已设为相对路径）'))
-C.push(bullet('埋点：src/utils/analytics.js 当前 console 输出，需替换为真实埋点 SDK'))
+C.push(bullet('埋点：src/utils/analytics.js 当前 console 输出，需替换为真实埋点 SDK；抽奖全链路埋点必做'))
 
 // ========== 八、合规文案 ==========
 C.push(H1NoBreak('八、合规与风险提示文案'))
